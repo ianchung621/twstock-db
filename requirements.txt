@@ -1,0 +1,8 @@
+numpy
+pandas
+matplotlib
+requests
+tqdm
+sqlalchemy
+psycopg
+lxml
