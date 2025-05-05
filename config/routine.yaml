@@ -1,0 +1,17 @@
+standard:
+  - IndexPrice
+  - StockPrice
+  - Stock
+  - StockCapReduction
+  - StockDividend
+  - StockSplit
+  - AdjustedPrice
+
+transaction:
+  - BrokerTransaction
+  - FutureLargeTrader
+
+info:
+   - BrokerInfo
+   - StockInfo
+   - ContractInfo
