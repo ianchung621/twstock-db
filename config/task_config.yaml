@@ -1,5 +1,5 @@
-index: # date_chunk
-  IndexPrice
+core: # date_chunk
+  - IndexPrice
 
 onetime:
   - BrokerInfo
@@ -17,9 +17,9 @@ periodic:
   - StockSplit
   - StockRevenue
 
-date_chunk: 
+date_chunk: null
 
-stock_chunk:
+stock_chunk: null
 
 transformation:
-  - adjusted_price
+  - AdjustedPrice
