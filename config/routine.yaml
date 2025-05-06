@@ -12,6 +12,12 @@ transaction:
   - FutureLargeTrader
 
 info:
-   - BrokerInfo
-   - StockInfo
-   - ContractInfo
+  - BrokerInfo
+  - StockInfo
+  - ContractInfo
+  
+periodic:
+  - StockCapReduction
+  - StockDividend
+  - StockSplit
+  - StockRevenue

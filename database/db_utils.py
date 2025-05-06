@@ -30,13 +30,24 @@ def read_sql_fast(query_str: str, dsn: str = DB_DSN) -> pd.DataFrame:
 
 def get_latest_date(table_name: str) -> pd.Timestamp | None:
 
-        query = f"SELECT MAX(date) AS latest FROM {table_name}"
-        df = read_sql_fast(query, dsn=DB_DSN)
-        if df.empty: 
-            return None
-        else:
-            latest = df["latest"].iloc[0]
-            return pd.to_datetime(latest) if pd.notna(latest) else None
+    query = f"SELECT MAX(date) AS latest FROM {table_name}"
+    df = read_sql_fast(query, dsn=DB_DSN)
+    if df.empty: 
+        return None
+    else:
+        latest = df["latest"].iloc[0]
+        return pd.to_datetime(latest) if pd.notna(latest) else None
+
+
+def get_min_date(table_name: str) -> pd.Timestamp | None:
+
+    query = f"SELECT MIN(date) AS mindate FROM {table_name}"
+    df = read_sql_fast(query, dsn=DB_DSN)
+    if df.empty: 
+        return None
+    else:
+        mindate = df["mindate"].iloc[0]
+        return pd.to_datetime(mindate) if pd.notna(mindate) else None
         
 class ModelFrameMapper:
     """
@@ -113,6 +124,7 @@ class ModelFrameMapper:
         if df.empty:
             print(f"No valid rows to insert into `{self.model.__tablename__}`. Skipping.")
             return
+        
         print(f"{update_mode} table: {self.model.__tablename__}\n{df.head()}\n...\n{df.tail()}")
         df.to_sql(
             self.model.__tablename__,
@@ -132,4 +144,4 @@ class ModelFrameMapper:
 
 if __name__ == "__main__":
 
-    print(get_latest_date("index_price"))
+    print(get_min_date("index_price"))

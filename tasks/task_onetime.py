@@ -6,6 +6,12 @@ from base_class.base_scraper import OneTimeScraper
 
 def run_onetime_task(model: Type[DeclarativeBase]):
     
+    if not issubclass(model._scraper, OneTimeScraper):
+        raise ValueError(
+            f"task_core.run_onetime_task only supports OneTimeScraper, "
+            f"the scraper of {model.__name__} uses {model._scraper.__bases__[0].__name__}"
+        )
+
     scraper: OneTimeScraper = model._scraper()
     df = scraper.run()
     print(f'scraping [{model.__tablename__}]')
