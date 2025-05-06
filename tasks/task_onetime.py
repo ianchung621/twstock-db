@@ -8,7 +8,7 @@ def run_onetime_task(model: Type[DeclarativeBase]):
     
     scraper: OneTimeScraper = model._scraper()
     df = scraper.run()
-    print(f'scraping {model.__tablename__}')
+    print(f'scraping [{model.__tablename__}]')
     ModelFrameMapper(model).save_to_sql(df, update_mode = 'replace')
 
 if __name__ == "__main__":
