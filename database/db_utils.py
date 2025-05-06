@@ -28,6 +28,16 @@ def read_sql_fast(query_str: str, dsn: str = DB_DSN) -> pd.DataFrame:
         df = pd.read_csv(buffer)
     return df
 
+def get_latest_date(table_name: str) -> pd.Timestamp | None:
+
+        query = f"SELECT MAX(date) AS latest FROM {table_name}"
+        df = read_sql_fast(query, dsn=DB_DSN)
+        if df.empty: 
+            return None
+        else:
+            latest = df["latest"].iloc[0]
+            return pd.to_datetime(latest) if pd.notna(latest) else None
+        
 class ModelFrameMapper:
     """
     A utility class to map SQLAlchemy models to Pandas dtypes and SQLAlchemy dtypes.
@@ -99,6 +109,10 @@ class ModelFrameMapper:
             
         df = df.dropna(subset=non_nullable_columns, ignore_index=True)
         df = self.cast_dataframe(df)
+
+        if df.empty:
+            print(f"No valid rows to insert into `{self.model.__tablename__}`. Skipping.")
+            return
         print(f"{update_mode} table: {self.model.__tablename__}\n{df.head()}\n...\n{df.tail()}")
         df.to_sql(
             self.model.__tablename__,
@@ -117,4 +131,5 @@ class ModelFrameMapper:
         return df
 
 if __name__ == "__main__":
-    print(read_sql_fast("SELECT * FROM broker_info"))
+
+    print(get_latest_date("index_price"))
