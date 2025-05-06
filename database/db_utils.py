@@ -31,7 +31,7 @@ def read_sql_fast(query_str: str, dsn: str = DB_DSN) -> pd.DataFrame:
 def get_latest_date(table_name: str) -> pd.Timestamp | None:
 
     query = f"SELECT MAX(date) AS latest FROM {table_name}"
-    df = read_sql_fast(query, dsn=DB_DSN)
+    df = read_sql_fast(query)
     if df.empty: 
         return None
     else:
@@ -42,12 +42,22 @@ def get_latest_date(table_name: str) -> pd.Timestamp | None:
 def get_min_date(table_name: str) -> pd.Timestamp | None:
 
     query = f"SELECT MIN(date) AS mindate FROM {table_name}"
-    df = read_sql_fast(query, dsn=DB_DSN)
+    df = read_sql_fast(query)
     if df.empty: 
         return None
     else:
         mindate = df["mindate"].iloc[0]
         return pd.to_datetime(mindate) if pd.notna(mindate) else None
+
+def get_date_serie(table_name: str) -> pd.Series | None:
+    
+    query = f"SELECT DISTINCT date FROM {table_name} ORDER BY date"
+    df = read_sql_fast(query)
+    if df.empty or "date" not in df.columns:
+        return None
+    else:
+        date_series = pd.to_datetime(df["date"])
+        return date_series if not date_series.empty else None
         
 class ModelFrameMapper:
     """
@@ -144,4 +154,4 @@ class ModelFrameMapper:
 
 if __name__ == "__main__":
 
-    print(get_min_date("index_price"))
+    print(get_date_serie("index_price"))
