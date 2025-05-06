@@ -16,14 +16,15 @@ class IndexPriceScraper(DateChunkScraper):
         self.session = requests.Session()
         self.session.headers.update({"user-agent": USER_AGENT})
     
-    def _scrape_date(self, date:pd.Timestamp):
+    def _scrape_date(self, date:pd.Timestamp, test_mode = False):
         url = "https://www.twse.com.tw/rwd/zh/TAIEX/MI_5MINS_HIST"
         params = {"date": date.strftime('%Y%m%d'), "response": "json"}
         response = self.session.get(url, params=params)
         self.validate_response(response)
         df = pd.DataFrame(response.json()['data'], columns = ['date','open','high','low','close'])
-        df['date'] = df['date'].str.replace(r"^\d+", lambda x: str(int(x.group()) + 1911), regex=True)
+        df['date'] = df['date'].str.strip().str.replace(r"^\d+", lambda x: str(int(x.group()) + 1911), regex=True)
         df['date'] = pd.to_datetime(df['date'], format="%Y/%m/%d")
+        if test_mode: return df
         self.respect_rate_limit()
         
         url = "https://www.twse.com.tw/rwd/zh/afterTrading/FMTQIK"
