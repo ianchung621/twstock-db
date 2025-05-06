@@ -4,7 +4,7 @@ from io import StringIO
 from sqlalchemy import Column, DateTime, REAL, String
 import warnings
 
-from config.settings import USER_AGENT
+from config.settings import USER_AGENT, DEFAULT_START_DATES
 from base_class.base_scraper import PeriodicScraper
 from models.base import Base
 
@@ -31,14 +31,15 @@ class StockCapReductionScraper(PeriodicScraper):
 
     def _twse_cap_reduction(self):
         
+        start_date = max(self.start_date, DEFAULT_START_DATES["StockCapReduction"])
         response = requests.get(
             "https://www.twse.com.tw/rwd/zh/reducation/TWTAUU",
              headers = {"user-agent":USER_AGENT},
-             params = {"response":"csv", "startDate":self.start_date.strftime('%Y%m%d'), "endDate":self.date_now.strftime('%Y%m%d')})
+             params = {"response":"csv", "startDate":start_date.strftime('%Y%m%d'), "endDate":self.date_now.strftime('%Y%m%d')})
         try:
             df = pd.read_csv(StringIO(response.text), header=1, dtype=str)
         except Exception as e:
-            print(f"pd.read_csv error : {e}")
+            print(f"twse_cap_reduction pd.read_csv error : {e}")
             return pd.DataFrame(columns=['date', 'stock_id', 'adjustment_factor',
                     'reduction_close', 'reduction_ref_price', 'open_ref_price', 'reduction_reason'])
         df = df[['恢復買賣日期','股票代號','停止買賣前收盤價格','恢復買賣參考價','開盤競價基準','減資原因']]
@@ -64,7 +65,7 @@ class StockCapReductionScraper(PeriodicScraper):
         try:
             df = pd.read_csv(StringIO(response.text), header=2, dtype=str)
         except Exception as e:
-            print(f"pd.read_csv error : {e}")
+            print(f"tpex_cap_reduction pd.read_csv error : {e}")
             return pd.DataFrame(columns=['date', 'stock_id', 'adjustment_factor',
                     'reduction_close', 'reduction_ref_price', 'open_ref_price', 'reduction_reason'])
         df = df[['恢復買賣日期','股票代號','最後交易日之收盤價格','減資恢復買賣開始日參考價格','開始交易基準價','減資原因']]
