@@ -19,7 +19,7 @@ def run_onetime_task(model: Type[DeclarativeBase]):
 
 if __name__ == "__main__":
 
-    import yaml
+    from config.settings import ROUTINE_CONFIG
     import models
 
     def get_model(model_name: str) -> Type[DeclarativeBase]:
@@ -27,10 +27,7 @@ if __name__ == "__main__":
         if model_cls is None:
             raise AttributeError(f"Model {model_name} not found in models/__init__.py")
         return model_cls
-
-    with open('config/routine.yaml', "r") as f:
-        routine_config = yaml.safe_load(f)
     
-    for model_name in routine_config['onetime']:
+    for model_name in ROUTINE_CONFIG['onetime']:
         model = get_model(model_name)
         run_onetime_task(model)

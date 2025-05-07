@@ -1,4 +1,5 @@
 import os
+import yaml
 import pandas as pd
 
 # === User-Agent Header ===
@@ -21,5 +22,8 @@ DEFAULT_START_DATES = {
     "BrokerTransaction": pd.Timestamp.today().normalize() - pd.DateOffset(years=5),
     "FutureLargeTrader": pd.Timestamp("2004-07-01"), # 自2008年12月17日起，本表於最後結算日所揭露之未沖銷部位不含當月份到期商品之數量; 自2022年11月9日起，本表臺股期貨(TX+MTX/4+TMF/20)之「週契約」統計對象包含所有未到期之週契約
     "StockCapReduction": pd.Timestamp("2011-01-01") # twse
-    
 }
+
+# === Routine Configuration ===
+with open("config/routine.yaml", "r") as f:
+    ROUTINE_CONFIG = yaml.safe_load(f)
