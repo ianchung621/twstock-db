@@ -42,22 +42,12 @@ DB_PASSWORD="your_password_here"
 DB_PORT="5432"
 DB_HOST="localhost"
 ```
-### 4. Create tables and run ETL tasks
-```bash
-python main.py
-```
-
----
 
 ### 4. Create tables and run ETL tasks
-
-To run all scraping and transformation tasks (excluding completed one-time scrapers):
 
 ```bash
 python main.py
 ```
-
----
 
 ### 5. Command Line Options
 
