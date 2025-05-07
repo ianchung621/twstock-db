@@ -31,6 +31,6 @@ if __name__ == "__main__":
     with open('config/routine.yaml', "r") as f:
         routine_config = yaml.safe_load(f)
     
-    for model_name in routine_config['info']:
+    for model_name in routine_config['onetime']:
         model = get_model(model_name)
         run_onetime_task(model)

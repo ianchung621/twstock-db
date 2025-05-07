@@ -1,3 +1,17 @@
+all:
+  - IndexPrice # core
+  - BrokerInfo # onetime
+  - StockInfo
+  - ContractInfo
+  - StockPrice # daily
+  - BrokerTransaction
+  - FutureLargeTrader
+  - StockCapReduction # periodic
+  - StockDividend
+  - StockSplit
+  - StockRevenue
+  - AdjustedPrice # transformation
+
 standard:
   - IndexPrice
   - StockPrice
@@ -7,17 +21,25 @@ standard:
   - StockSplit
   - AdjustedPrice
 
-transaction:
-  - BrokerTransaction
-  - FutureLargeTrader
+# === by scraper-type ===
+core:
+  - IndexPrice
 
-info:
+onetime:
   - BrokerInfo
   - StockInfo
   - ContractInfo
-  
+
+daily:
+  - StockPrice
+  - BrokerTransaction
+  - FutureLargeTrader
+
 periodic:
   - StockCapReduction
   - StockDividend
   - StockSplit
   - StockRevenue
+
+transformation:
+  - AdjustedPrice
