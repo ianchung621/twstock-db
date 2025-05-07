@@ -1,37 +1,127 @@
-### Table: adjusted_price
-  - _date_, _stock_id_, open, high, low, close
+<h3>Tables</h3>
+<p>adjusted_price:</p>
+<table style="border: 1px solid #aaa; border-collapse: collapse; margin-bottom: 1em;"><tr>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;"><u>date</u></td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;"><u>stock_id</u></td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">open</td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">high</td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">low</td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">close</td>
+</tr></table>
 
-### Table: broker_info
-  - _broker_id_, broker_name, broker_group_query_str, broker_query_str
+<p>broker_info:</p>
+<table style="border: 1px solid #aaa; border-collapse: collapse; margin-bottom: 1em;"><tr>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;"><u>broker_id</u></td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">broker_name</td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">broker_group_query_str</td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">broker_query_str</td>
+</tr></table>
 
-### Table: broker_transaction
-  - _date_, _stock_id_, _broker_id_, volume, turnover
+<p>broker_transaction:</p>
+<table style="border: 1px solid #aaa; border-collapse: collapse; margin-bottom: 1em;"><tr>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;"><u>date</u></td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;"><u>stock_id</u></td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;"><u>broker_id</u></td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">volume</td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">turnover</td>
+</tr></table>
 
-### Table: contract_info
-  - _contract_id_, stock_id, stock_name
+<p>contract_info:</p>
+<table style="border: 1px solid #aaa; border-collapse: collapse; margin-bottom: 1em;"><tr>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;"><u>contract_id</u></td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">stock_id</td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">stock_name</td>
+</tr></table>
 
-### Table: future_large_trader
-  - _date_, _contract_id_, contract_name, buy_top5_volume, buy_top5_ratio, buy_top5_ii_ratio, buy_top10_volume, buy_top10_ratio, buy_top10_ii_ratio, sell_top5_volume, sell_top5_ratio, sell_top5_ii_ratio, sell_top10_volume, sell_top10_ratio, sell_top10_ii_ratio, total_volume
+<p>future_large_trader:</p>
+<table style="border: 1px solid #aaa; border-collapse: collapse; margin-bottom: 1em;"><tr>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;"><u>date</u></td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;"><u>contract_id</u></td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">contract_name</td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">buy_top5_volume</td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">buy_top5_ratio</td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">buy_top5_ii_ratio</td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">buy_top10_volume</td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">buy_top10_ratio</td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">buy_top10_ii_ratio</td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">sell_top5_volume</td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">sell_top5_ratio</td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">sell_top5_ii_ratio</td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">sell_top10_volume</td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">sell_top10_ratio</td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">sell_top10_ii_ratio</td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">total_volume</td>
+</tr></table>
 
-### Table: index_price
-  - _date_, open, high, low, close, volume
+<p>index_price:</p>
+<table style="border: 1px solid #aaa; border-collapse: collapse; margin-bottom: 1em;"><tr>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;"><u>date</u></td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">open</td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">high</td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">low</td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">close</td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">volume</td>
+</tr></table>
 
-### Table: stock_cap_reduction
-  - _date_, _stock_id_, adjustment_factor, reduction_close, reduction_ref_price, open_ref_price, reduction_reason
+<p>stock_cap_reduction:</p>
+<table style="border: 1px solid #aaa; border-collapse: collapse; margin-bottom: 1em;"><tr>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;"><u>date</u></td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;"><u>stock_id</u></td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">adjustment_factor</td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">reduction_close</td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">reduction_ref_price</td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">open_ref_price</td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">reduction_reason</td>
+</tr></table>
 
-### Table: stock_dividend
-  - _date_, _stock_id_, adjustment_factor, ex_div_close, open_ref_price, dividend_value, div_ref_price, dividend_type
+<p>stock_dividend:</p>
+<table style="border: 1px solid #aaa; border-collapse: collapse; margin-bottom: 1em;"><tr>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;"><u>date</u></td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;"><u>stock_id</u></td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">adjustment_factor</td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">ex_div_close</td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">open_ref_price</td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">dividend_value</td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">div_ref_price</td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">dividend_type</td>
+</tr></table>
 
-### Table: stock_info
-  - _stock_id_, stock_name, market_type, industry_type, asset_type, listing_date
+<p>stock_info:</p>
+<table style="border: 1px solid #aaa; border-collapse: collapse; margin-bottom: 1em;"><tr>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;"><u>stock_id</u></td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">stock_name</td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">market_type</td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">industry_type</td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">asset_type</td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">listing_date</td>
+</tr></table>
 
-### Table: stock_price
-  - _date_, _stock_id_, open, high, low, close, volume, turnover, transactions_number
+<p>stock_price:</p>
+<table style="border: 1px solid #aaa; border-collapse: collapse; margin-bottom: 1em;"><tr>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;"><u>date</u></td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;"><u>stock_id</u></td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">open</td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">high</td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">low</td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">close</td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">volume</td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">turnover</td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">transactions_number</td>
+</tr></table>
 
-### Table: stock_revenue
-  - _date_, _stock_id_, revenue
+<p>stock_revenue:</p>
+<table style="border: 1px solid #aaa; border-collapse: collapse; margin-bottom: 1em;"><tr>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;"><u>date</u></td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;"><u>stock_id</u></td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">revenue</td>
+</tr></table>
 
-### Table: stock_split
-  - _date_, _stock_id_, adjustment_factor, split_close, split_ref_price, open_ref_price
-
-### Foreign Key Relationships
+<p>stock_split:</p>
+<table style="border: 1px solid #aaa; border-collapse: collapse; margin-bottom: 1em;"><tr>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;"><u>date</u></td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;"><u>stock_id</u></td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">adjustment_factor</td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">split_close</td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">split_ref_price</td>
+<td style="border-collapse: collapse; border: 1px solid #aaa; padding: 4px; text-align: left;">open_ref_price</td>
+</tr></table>
