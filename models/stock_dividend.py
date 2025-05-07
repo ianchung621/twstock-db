@@ -84,14 +84,13 @@ class StockDividendScraper(PeriodicScraper):
         return df
 
     def run(self):
-        df = pd.concat(
-            [self._twse_divide_ratio(), 
-             self._tpex_divide_ratio()],
-            ignore_index=True)
+        cols = ['date', 'stock_id', 'adjustment_factor', 
+                'ex_div_close', 'open_ref_price', 'dividend_value', 'div_ref_price',
+                'dividend_type']
+        dfs = [self._twse_divide_ratio(), self._tpex_divide_ratio()]
+        df = self.safe_concat(dfs, cols)
         df = df.sort_values('date', ignore_index=True).drop_duplicates(ignore_index=True)
-        return df[['date', 'stock_id', 'adjustment_factor', 
-                    'ex_div_close', 'open_ref_price', 'dividend_value', 'div_ref_price',
-                    'dividend_type']]
+        return df
     
 class StockDividend(Base):
     __tablename__ = 'stock_dividend'

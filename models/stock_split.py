@@ -134,16 +134,15 @@ class StockSplitScraper(PeriodicScraper):
 
 
     def run(self):
+        cols = ['date', 'stock_id', 'adjustment_factor',
+                'split_close', 'split_ref_price', 'open_ref_price']
         dfs = [self._twse_split(), 
              self._tpex_split(),
              self._tpex_etf_split(),
              self._twse_etf_split()]
-        df = pd.concat(
-            [dfi for dfi in dfs if not dfi.empty],
-            ignore_index=True)
+        df = self.safe_concat(dfs, cols)
         df = df.sort_values('date', ignore_index=True).drop_duplicates(ignore_index=True)
-        return df[['date', 'stock_id', 'adjustment_factor',
-                    'split_close', 'split_ref_price', 'open_ref_price']]
+        return df
     
 
 class StockSplit(Base):

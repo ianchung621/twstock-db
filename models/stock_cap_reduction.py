@@ -84,13 +84,12 @@ class StockCapReductionScraper(PeriodicScraper):
         return df
 
     def run(self):
-        df = pd.concat(
-            [self._twse_cap_reduction(), 
-             self._tpex_cap_reduction()],
-            ignore_index=True)
+        cols = ['date', 'stock_id', 'adjustment_factor',
+                'reduction_close', 'reduction_ref_price', 'open_ref_price', 'reduction_reason']
+        dfs = [self._twse_cap_reduction(), self._tpex_cap_reduction()]
+        df = self.safe_concat(dfs, cols)
         df = df.sort_values('date', ignore_index=True).drop_duplicates(ignore_index=True)
-        return df[['date', 'stock_id', 'adjustment_factor',
-                    'reduction_close', 'reduction_ref_price', 'open_ref_price', 'reduction_reason']]
+        return df
 
 class StockCapReduction(Base):
     __tablename__ = 'stock_cap_reduction'

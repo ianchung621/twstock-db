@@ -37,7 +37,16 @@ class BaseScraper(ABC):
             time.sleep(delay + 0.1*random.randint(1,10))
         else:
             time.sleep(delay)
-
+    
+    @staticmethod
+    def safe_concat(dfs: list[pd.DataFrame], col_names: list[str] = None) -> pd.DataFrame:
+        valid_dfs = [df for df in dfs if not df.empty]
+        
+        if not valid_dfs:
+            return pd.DataFrame(columns=col_names) if col_names else pd.DataFrame()
+        else:
+            df = pd.concat(valid_dfs, ignore_index=True)
+            return df[col_names] if col_names else df
 
 
 class OneTimeScraper(BaseScraper):
