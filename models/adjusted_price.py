@@ -1,9 +1,10 @@
 import pandas as pd
 from sqlalchemy import Column, DateTime, String, REAL
 
+from base_class.base_transformer import Transformer
 from models.base import Base
 from models.stock_price import StockPrice
-from database.db_utils import get_engine, ModelFrameMapper
+from database.db_utils import read_sql_fast, ModelFrameMapper
 
 def align_dataframes(df1: pd.DataFrame, df2: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
     """Align two DataFrames by index and columns, filling missing values."""
@@ -25,16 +26,16 @@ def merge_price_dataframes(dfs: list[pd.DataFrame]) -> pd.DataFrame:
 
     return merged_df
 
-class PriceAdjustmentTransformer:
+class AdjustedPriceTransformer(Transformer):
 
     def __init__(self):
         
-        adj_record_df = pd.read_sql('''SELECT date, stock_id, adjustment_factor, 'div' AS source_table FROM stock_dividend
+        adj_record_df = read_sql_fast('''SELECT date, stock_id, adjustment_factor, 'div' AS source_table FROM stock_dividend
         UNION ALL
         SELECT date, stock_id, adjustment_factor, 'capred' AS source_table FROM stock_cap_reduction
         UNION ALL
         SELECT date, stock_id, adjustment_factor, 'split' AS source_table FROM stock_split
-        ORDER BY date;''', get_engine())
+        ORDER BY date''')
         self.price_record_df = ModelFrameMapper(StockPrice).read_sql("SELECT date,stock_id,open,high,low,close FROM stock_price")
         self.adj_df = (adj_record_df.pivot(index='date',
                                     columns='stock_id',
@@ -51,7 +52,7 @@ class PriceAdjustmentTransformer:
                                         var_name="stock_id",
                                         value_name=col).sort_values(['date','stock_id'], ignore_index=True)
     
-    def transform(self):
+    def run(self):
         return merge_price_dataframes([self._adjust('open'), 
                                        self._adjust('high'), 
                                        self._adjust('low'), 
@@ -59,7 +60,8 @@ class PriceAdjustmentTransformer:
 
 class AdjustedPrice(Base):
     __tablename__ = 'adjusted_price'
-    _transformer = PriceAdjustmentTransformer
+    # Although this is a transformer, we use `_scraper` here to integrate with the task pipeline
+    _scraper = AdjustedPriceTransformer
 
     date = Column(DateTime, primary_key=True, nullable=False)
     stock_id = Column(String(8), primary_key=True, nullable=False)
