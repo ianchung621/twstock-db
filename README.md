@@ -2,6 +2,13 @@
 
 An ETL project that scrapes, processes, and stores Taiwan stock market data into a PostgreSQL database.
 
+
+---
+
+## Schema Diagram
+
+[View full diagram](docs/schema_diagram.md)
+
 ---
 
 ## Requirements
@@ -10,12 +17,6 @@ An ETL project that scrapes, processes, and stores Taiwan stock market data into
   ⚠️ **Python 3.13 is NOT supported** (due to SSL certificate verification issues with `requests` module).
 - PostgreSQL
 - Install Python dependencies via `requirements.txt`.
-
----
-
-## Schema Diagram
-
-[View full diagram](docs/schema_diagram.md)
 
 ---
 ## Setup Instructions
@@ -45,8 +46,6 @@ DB_HOST="localhost"
 ```bash
 python main.py
 ```
-
-Certainly! Here’s an extended version of your `README.md` with detailed usage of the `main.py` arguments after step 4.
 
 ---
 
