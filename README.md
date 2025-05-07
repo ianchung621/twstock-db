@@ -13,6 +13,11 @@ An ETL project that scrapes, processes, and stores Taiwan stock market data into
 
 ---
 
+## Schema Diagram
+
+[View full diagram](docs/schema_diagram.md)
+
+---
 ## Setup Instructions
 
 ### 1. Create and activate environment
@@ -39,5 +44,49 @@ DB_HOST="localhost"
 ### 4. Create tables and run ETL tasks
 ```bash
 python main.py
+```
+
+Certainly! Here’s an extended version of your `README.md` with detailed usage of the `main.py` arguments after step 4.
+
+---
+
+### 4. Create tables and run ETL tasks
+
+To run all scraping and transformation tasks (excluding completed one-time scrapers):
+
+```bash
+python main.py
+```
+
+---
+
+### 5. Command Line Options
+
+You can customize which models to run using the following options:
+
+| Flag | Description |
+|------|-------------|
+| `-r`, `--routine` | Run a predefined group of models from `config/routine.yaml`. <br>Example values: `all`, `standard`, `daily`, `onetime`, `transformation`, etc. <br>**Default**: `all` |
+| `-i`, `--include-onetime` | Include `OneTimeScraper` models (e.g. `BrokerInfo`, `ContractInfo`). <br>By default, these are skipped if the corresponding table has existing data. |
+| `-m`, `--model` | Run a specific model by name (e.g. `StockPrice`, `IndexPrice`). <br>This bypasses the `--routine` setting. |
+
+#### 🔧 Examples:
+
+Run models listed under the `standard` routine (commonly used when you only need `AdjustedPrice`, including its dependencies like `StockPrice`, `StockDividend`, `StockCapReduction`, etc):
+
+```bash
+python main.py --routine standard
+```
+
+Run the `BrokerInfo` model explicitly:
+
+```bash
+python main.py --model BrokerInfo
+```
+
+Run all models, including `OneTimeScraper` (if the corresponding table has existing data, this will overwrite the data):
+
+```bash
+python main.py --include-onetime
 ```
 
