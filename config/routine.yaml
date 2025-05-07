@@ -12,6 +12,19 @@ all:
   - StockRevenue
   - AdjustedPrice # transformation
 
+raw: # no transform, only scrape
+  - IndexPrice # core
+  - BrokerInfo # onetime
+  - StockInfo
+  - ContractInfo
+  - StockPrice # daily
+  - BrokerTransaction
+  - FutureLargeTrader
+  - StockCapReduction # periodic
+  - StockDividend
+  - StockSplit
+  - StockRevenue
+
 standard:
   - IndexPrice
   - StockPrice
