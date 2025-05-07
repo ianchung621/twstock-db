@@ -58,7 +58,16 @@ def get_date_serie(table_name: str) -> pd.Series | None:
     else:
         date_series = pd.to_datetime(df["date"])
         return date_series if not date_series.empty else None
-        
+
+def table_has_data(table_name: str) -> bool:
+    """
+    Check if the given table contains any rows.
+    """
+    query = f"SELECT EXISTS (SELECT 1 FROM {table_name} LIMIT 1) AS has_data"
+    df = pd.read_sql(query, SQLALCHEMY_DATABASE_URL)
+    return df['has_data'].iloc[0]
+
+
 class ModelFrameMapper:
     """
     A utility class to map SQLAlchemy models to Pandas dtypes and SQLAlchemy dtypes.
@@ -154,4 +163,4 @@ class ModelFrameMapper:
 
 if __name__ == "__main__":
 
-    print(get_date_serie("index_price"))
+    print(table_has_data("index_price"))
