@@ -2,16 +2,8 @@ import argparse
 from config.settings import ROUTINE_CONFIG
 from database.db_utils import table_has_data
 from tasks import run_task, create_tables
-import models
+from models import get_model
 from base_class.base_scraper import OneTimeScraper
-
-
-def get_model(model_name: str):
-    model_cls = getattr(models, model_name, None)
-    if model_cls is None:
-        raise AttributeError(f"Model {model_name} not found in models/__init__.py")
-    return model_cls
-
 
 def main():
     available_routines = list(ROUTINE_CONFIG.keys())

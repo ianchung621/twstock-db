@@ -23,13 +23,7 @@ def run_transform_task(model: Type[DeclarativeBase]):
 if __name__ == "__main__":
 
     from config.settings import ROUTINE_CONFIG
-    import models
-
-    def get_model(model_name: str) -> Type[DeclarativeBase]:
-        model_cls = getattr(models, model_name, None)
-        if model_cls is None:
-            raise AttributeError(f"Model {model_name} not found in models/__init__.py")
-        return model_cls
+    from models import get_model
     
     for model_name in ROUTINE_CONFIG['transformation']:
         model = get_model(model_name)
