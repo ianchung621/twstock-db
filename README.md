@@ -45,6 +45,10 @@ DB_HOST="localhost"
 
 ### 4. Create tables and run ETL tasks
 
+You can change the start date by modify `DEFAULT_START_DATES["IndexPrice"]` in `config/settings.py`.
+
+The default is 6 years before current date.
+
 ```bash
 python main.py
 ```
