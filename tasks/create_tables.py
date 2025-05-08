@@ -1,16 +1,9 @@
 from sqlalchemy import create_engine, inspect
-import models
+from models import get_model
 from models import Base
 from config.settings import SQLALCHEMY_DATABASE_URL, DB_NAME, ROUTINE_CONFIG
 
 def _get_all_table_set():
-
-    def get_model(model_name: str):
-        model_cls = getattr(models, model_name, None)
-        if model_cls is None:
-            raise AttributeError(f"Model {model_name} not found in models/__init__.py")
-        return model_cls
-    
     return set(get_model(mn).__tablename__ for mn in ROUTINE_CONFIG['all'])
 
 def _get_table_set(engine):

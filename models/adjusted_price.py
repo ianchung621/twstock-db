@@ -6,25 +6,6 @@ from models.base import Base
 from models.stock_price import StockPrice
 from database.db_utils import read_sql_fast, ModelFrameMapper
 
-def align_dataframes(df1: pd.DataFrame, df2: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
-    """Align two DataFrames by index and columns, filling missing values."""
-    common_index = df1.index.union(df2.index)
-    common_columns = df1.columns.union(df2.columns)
-    
-    df1_aligned = df1.reindex(index=common_index, columns=common_columns)
-    df2_aligned = df2.reindex(index=common_index, columns=common_columns)
-    
-    return df1_aligned, df2_aligned
-
-def merge_price_dataframes(dfs: list[pd.DataFrame]) -> pd.DataFrame:
-    """Merge multiple DataFrames on 'date' and 'stock_id', handling overlapping price columns."""
-
-    merged_df = dfs[0]
-    
-    for i, df in enumerate(dfs[1:], start=1):
-        merged_df = merged_df.merge(df, on=['date', 'stock_id'], how='outer', suffixes=(False,False))
-
-    return merged_df
 
 class AdjustedPriceTransformer(Transformer):
 
@@ -35,28 +16,37 @@ class AdjustedPriceTransformer(Transformer):
         SELECT date, stock_id, adjustment_factor, 'capred' AS source_table FROM stock_cap_reduction
         UNION ALL
         SELECT date, stock_id, adjustment_factor, 'split' AS source_table FROM stock_split
-        ORDER BY date''')
-        self.price_record_df = ModelFrameMapper(StockPrice).read_sql("SELECT date,stock_id,open,high,low,close FROM stock_price")
-        self.adj_df = (adj_record_df.pivot(index='date',
-                                    columns='stock_id',
-                                    values='adjustment_factor')
-                                    )
+        ''')
+        adj_record_df['date'] = pd.to_datetime(adj_record_df['date'])
+
+        print("[AdjustedPriceTransformer]: Loading stock_price")
+
+        price_record_df = ModelFrameMapper(StockPrice).read_sql("""SELECT date,stock_id,open,high,low,close 
+                                                                     FROM stock_price
+                                                                     """)
         
-    def _adjust(self, col = 'close'):
-        price_df = self.price_record_df.pivot(index='date',columns='stock_id',values=col)
-        price_df_aligned, adj_df_aligned = align_dataframes(price_df, self.adj_df)
-        adj_df_aligned = adj_df_aligned.fillna(1).cumprod()
-        adj_price_df_aligned = adj_df_aligned*price_df_aligned
-        adj_price_df = adj_price_df_aligned.reindex_like(price_df)
-        return adj_price_df.reset_index().melt(id_vars='date', 
-                                        var_name="stock_id",
-                                        value_name=col).sort_values(['date','stock_id'], ignore_index=True)
+        print("[AdjustedPriceTransformer]: Calculating adjustment factor")
+
+        all_dates = sorted(price_record_df['date'].unique())
+        all_stocks = sorted(price_record_df['stock_id'].unique())
+        
+        self.adj_df = (adj_record_df
+                    .groupby(['date', 'stock_id'])['adjustment_factor']
+                    .prod()
+                    .unstack())
+        self.adj_df = self.adj_df.reindex(index=all_dates, columns=all_stocks, fill_value=1.0)
+        self.adj_df = self.adj_df.fillna(1.0).cumprod()
+        self.adj_df = self.adj_df/self.adj_df.iloc[-1] # Backward adjustment
+
+        self.price_df = price_record_df.pivot(index='date',columns='stock_id') # col: MultiIndex(price, stock_id)
     
-    def run(self):
-        return merge_price_dataframes([self._adjust('open'), 
-                                       self._adjust('high'), 
-                                       self._adjust('low'), 
-                                       self._adjust('close')])
+    def run(self) -> pd.DataFrame:
+        adjusted_price_records = {
+            # (idx: date, col: stock_id) -> (idx: MultiIndex(date, stock_id) col: None)
+            col: (self.adj_df * self.price_df[col]).stack()
+            for col in ['open', 'high', 'low', 'close']}
+        df = pd.concat(adjusted_price_records, axis=1).reset_index()
+        return df
 
 class AdjustedPrice(Base):
     __tablename__ = 'adjusted_price'
