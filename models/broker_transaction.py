@@ -6,6 +6,7 @@ from concurrent.futures import ThreadPoolExecutor
 
 from config.settings import USER_AGENT
 from base_class.base_scraper import DailyScraper
+from database.db_utils import table_has_data, read_sql_fast
 from models.broker_info import BrokerInfoScraper
 from models.base import Base
 
@@ -14,7 +15,11 @@ class BrokerTransactionScraper(DailyScraper):
 
     def __init__(self, date: pd.Timestamp):
         super().__init__(date)
-        self.broker_info = BrokerInfoScraper().run().set_index("broker_id")
+        if table_has_data('broker_info'):
+            self.broker_info = read_sql_fast("SELECT * FROM broker_info").set_index("broker_id")
+        else:
+            self.broker_info = BrokerInfoScraper().run().set_index("broker_id")
+
         self.date_str = self.date.strftime("%Y-%m-%d")
         self.__columns = ["date","stock_id","broker_id","volume","turnover"]
 

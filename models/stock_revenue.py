@@ -5,6 +5,7 @@ from io import StringIO
 from concurrent.futures import ThreadPoolExecutor
 
 from config.settings import USER_AGENT
+from database.db_utils import table_has_data, read_sql_fast
 from base_class.base_scraper import PeriodicScraper
 from models.stock_info import StockInfoScraper
 from models.base import Base
@@ -15,7 +16,11 @@ class StockRevenueScraper(PeriodicScraper):
     def __init__(self, start_date):
         super().__init__(start_date)
 
-        df = StockInfoScraper().run()
+        if table_has_data('stock_info'):
+            df = read_sql_fast("SELECT stock_id, asset_type FROM stock_info")
+        else:
+            df = StockInfoScraper().run()
+        
         self.stock_ids = df.loc[df['asset_type'] == 'stk', 'stock_id'].to_list()
         
         self.session = requests.Session()
