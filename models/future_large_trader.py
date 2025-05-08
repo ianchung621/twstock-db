@@ -1,10 +1,8 @@
 import numpy as np
 import pandas as pd
-import requests
 from io import StringIO
 from sqlalchemy import Column, DateTime, String, REAL, BigInteger
 
-from config.settings import USER_AGENT
 from base_class.base_scraper import DailyScraper
 from models.base import Base
 
@@ -20,8 +18,6 @@ class FutureLargeTraderScraper(DailyScraper):
                         'sell_top10_volume', 'sell_top10_ratio', 'sell_top10_ii_ratio',
                         'total_volume'
                     ]
-        self.session = requests.Session()
-        self.session.headers.update({"user-agent": USER_AGENT})
 
     def get_contract_dict(self):
         response = self.session.get("https://www.taifex.com.tw/cht/3/getLargeTradersFutContract",

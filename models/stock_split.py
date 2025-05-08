@@ -1,9 +1,7 @@
 import pandas as pd
-import requests
 from io import StringIO
 from sqlalchemy import Column, DateTime, REAL, String
 
-from config.settings import USER_AGENT
 from base_class.base_scraper import PeriodicScraper
 from models.base import Base
 
@@ -29,9 +27,8 @@ class StockSplitScraper(PeriodicScraper):
 
     def _twse_split(self):
         
-        response = requests.get(
+        response = self.session.get(
             "https://www.twse.com.tw/rwd/zh/change/TWTB8U",
-             headers = {"user-agent":USER_AGENT},
              params = {"response":"csv", "startDate":self.start_date.strftime('%Y%m%d'), "endDate":self.date_now.strftime('%Y%m%d')})
         try:
             df = pd.read_csv(StringIO(response.text), header=1, dtype=str)
@@ -52,9 +49,8 @@ class StockSplitScraper(PeriodicScraper):
         return df
 
     def _tpex_split(self):
-        response = requests.post(
+        response = self.session.post(
             "https://www.tpex.org.tw/www/zh-tw/bulletin/pvChgRslt",
-             headers = {"user-agent":USER_AGENT},
              data = {"response":"csv", "startDate":self.start_date.strftime('%Y/%m/%d'), "endDate":self.date_now.strftime('%Y/%m/%d')})
         try:
             df = pd.read_csv(StringIO(response.text), header=2, dtype=str)
@@ -76,9 +72,8 @@ class StockSplitScraper(PeriodicScraper):
     
     def _twse_etf_split(self):
         
-        response = requests.get(
+        response = self.session.get(
             "https://www.twse.com.tw/rwd/zh/split/TWTCAU",
-             headers = {"user-agent":USER_AGENT},
              params = {"response":"csv", "startDate":self.start_date.strftime('%Y%m%d'), "endDate":self.date_now.strftime('%Y%m%d')})
         try:
             df = pd.read_csv(StringIO(response.text.replace("=","")), header=1, dtype=str)
@@ -99,18 +94,16 @@ class StockSplitScraper(PeriodicScraper):
         return df
     
     def _tpex_etf_split(self):
-        response_split = requests.post(
+        response_split = self.session.post(
             "https://www.tpex.org.tw/www/zh-tw/bulletin/etfSplitRslt",
-             headers = {"user-agent":USER_AGENT},
              data = {"response":"csv", "startDate":self.start_date.strftime('%Y/%m/%d'), "endDate":self.date_now.strftime('%Y/%m/%d')})
         try:
             df_split = pd.read_csv(StringIO(response_split.text), header=2, dtype=str)
         except Exception as e:
             print(f"pd.read_csv error : {e}")
             df_split = pd.DataFrame(columns=['恢復買賣日期', '證券代號', '最後交易日之收盤價格', '恢復買賣開始參考價', '開始交易基準價'])
-        response_merge = requests.post(
+        response_merge = self.session.post(
             "https://www.tpex.org.tw/www/zh-tw/bulletin/etfRvsRslt",
-             headers = {"user-agent":USER_AGENT},
              data = {"response":"csv", "startDate":self.start_date.strftime('%Y/%m/%d'), "endDate":self.date_now.strftime('%Y/%m/%d')})
         try:
             df_merge = pd.read_csv(StringIO(response_merge.text), header=2, dtype=str)

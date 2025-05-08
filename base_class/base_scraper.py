@@ -1,10 +1,11 @@
 from abc import ABC, abstractmethod
 from typing import Iterator
-from requests import Response
+from requests import Response, Session
 from requests.exceptions import HTTPError
 import pandas as pd
 import random
 import time
+from config.settings import USER_AGENT
 
 
 class BaseScraper(ABC):
@@ -15,6 +16,15 @@ class BaseScraper(ABC):
     @abstractmethod
     def run(self) -> pd.DataFrame:
         pass
+
+    @property
+    def session(self):
+        if not hasattr(self, '_session'):
+            s = Session()
+            s.headers.update({"user-agent": USER_AGENT})
+            self._session = s
+        return self._session
+
 
     @staticmethod
     def validate_response(response: Response):
@@ -88,6 +98,14 @@ class BaseChunkScraper(ABC):
         Should yield one DataFrame per logical chunk.
         """
         pass
+
+    @property
+    def session(self):
+        if not hasattr(self, '_session'):
+            s = Session()
+            s.headers.update({"user-agent": USER_AGENT})
+            self._session = s
+        return self._session
 
     @staticmethod
     def validate_response(response: Response):

@@ -1,10 +1,9 @@
 import pandas as pd
-import requests
 from io import StringIO
 from sqlalchemy import Column, DateTime, REAL, String
 import warnings
 
-from config.settings import USER_AGENT, DEFAULT_START_DATES
+from config.settings import DEFAULT_START_DATES
 from base_class.base_scraper import PeriodicScraper
 from models.base import Base
 
@@ -32,10 +31,11 @@ class StockCapReductionScraper(PeriodicScraper):
     def _twse_cap_reduction(self):
         
         start_date = max(self.start_date, DEFAULT_START_DATES["StockCapReduction"])
-        response = requests.get(
+        response = self.session.get(
             "https://www.twse.com.tw/rwd/zh/reducation/TWTAUU",
-             headers = {"user-agent":USER_AGENT},
-             params = {"response":"csv", "startDate":start_date.strftime('%Y%m%d'), "endDate":self.date_now.strftime('%Y%m%d')})
+             params = {"response":"csv", 
+                       "startDate":start_date.strftime('%Y%m%d'), 
+                       "endDate":self.date_now.strftime('%Y%m%d')})
         try:
             df = pd.read_csv(StringIO(response.text), header=1, dtype=str)
         except Exception as e:
@@ -58,10 +58,11 @@ class StockCapReductionScraper(PeriodicScraper):
         return df
 
     def _tpex_cap_reduction(self):
-        response = requests.post(
+        response = self.session.post(
             "https://www.tpex.org.tw/www/zh-tw/bulletin/revivt",
-             headers = {"user-agent":USER_AGENT},
-             data = {"response":"csv", "startDate":self.start_date.strftime('%Y/%m/%d'), "endDate":self.date_now.strftime('%Y/%m/%d')})
+             data = {"response":"csv", 
+                     "startDate":self.start_date.strftime('%Y/%m/%d'), 
+                     "endDate":self.date_now.strftime('%Y/%m/%d')})
         try:
             df = pd.read_csv(StringIO(response.text), header=2, dtype=str)
         except Exception as e:

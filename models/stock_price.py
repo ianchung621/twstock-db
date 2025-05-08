@@ -1,9 +1,7 @@
 import warnings
 import pandas as pd
-import requests
 from sqlalchemy import Column, DateTime, String, REAL, BigInteger
 
-from config.settings import USER_AGENT
 from base_class.base_scraper import DailyScraper
 from models.base import Base
 
@@ -18,10 +16,9 @@ class StockPriceScraper(DailyScraper):
                             'volume', 'turnover', 'transactions_number']
 
     def _scrape_twse(self):
-        response = requests.post(
+        response = self.session.post(
             "http://www.twse.com.tw/exchangeReport/MI_INDEX",
-            params = {"response":"json", "date":self.date.strftime('%Y%m%d'), "type":"ALLBUT0999"},
-            headers={"user-agent":USER_AGENT})
+            params = {"response":"json", "date":self.date.strftime('%Y%m%d'), "type":"ALLBUT0999"})
         self.validate_response(response)
         try:
             stock_table = response.json()['tables'][8]
@@ -51,9 +48,8 @@ class StockPriceScraper(DailyScraper):
 
     def _scrape_tpex(self):
         url = "https://www.tpex.org.tw/www/zh-tw/afterTrading/dailyQuotes"
-        response = requests.post(url,
-                    params={"response":"json", "date":self.date.strftime('%Y/%m/%d')},
-                    headers={"user-agent":USER_AGENT})
+        response = self.session.post(url,
+                    params={"response":"json", "date":self.date.strftime('%Y/%m/%d')})
         self.validate_response(response)
         try:
             stock_table = response.json()['tables'][0]

@@ -1,10 +1,8 @@
 import pandas as pd
-import requests
 from sqlalchemy import Column, DateTime, String, BigInteger
 from io import StringIO
 from concurrent.futures import ThreadPoolExecutor
 
-from config.settings import USER_AGENT
 from base_class.base_scraper import DailyScraper
 from database.db_utils import table_has_data, read_sql_fast
 from models.broker_info import BrokerInfoScraper
@@ -22,9 +20,6 @@ class BrokerTransactionScraper(DailyScraper):
 
         self.date_str = self.date.strftime("%Y-%m-%d")
         self.__columns = ["date","stock_id","broker_id","volume","turnover"]
-
-        self.session = requests.Session()
-        self.session.headers.update({"user-agent": USER_AGENT})
     
     def _scrape_broker(self, broker_id: str):
         response = self.session.get("https://fubon-ebrokerdj.fbs.com.tw/z/zg/zgb/zgb0.djhtm",

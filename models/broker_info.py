@@ -1,9 +1,7 @@
 import pandas as pd
-import requests
 import re
 from sqlalchemy import Column, String
 
-from config.settings import USER_AGENT
 from base_class.base_scraper import OneTimeScraper
 from models.base import Base
 
@@ -33,8 +31,7 @@ class BrokerInfoScraper(OneTimeScraper):
         return df[columns]
     
     def run(self):
-        response = requests.get('https://fubon-ebrokerdj.fbs.com.tw/z/js/zbrokerjs.djjs',
-                                headers = {'user-agent':USER_AGENT})
+        response = self.session.get('https://fubon-ebrokerdj.fbs.com.tw/z/js/zbrokerjs.djjs')
         raw_str = response.content.decode('big5').splitlines()[0] # raw broker list str in js code
         raw_str = raw_str.replace("(牛牛牛)","犇")
         raw_str = re.search(r"var g_BrokerList = '(.*?)';",raw_str, re.DOTALL).group(1)

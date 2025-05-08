@@ -1,9 +1,7 @@
 import pandas as pd
-import requests
 from io import StringIO
 from sqlalchemy import Column, String, DateTime
 
-from config.settings import USER_AGENT
 from base_class.base_scraper import OneTimeScraper
 from models.base import Base
 
@@ -14,10 +12,8 @@ class StockInfoScraper(OneTimeScraper):
         self.columns = ["stock_id","stock_name","market_type","industry_type","asset_type","listing_date"]
     
     def run(self):
-        response_twse = requests.get("https://isin.twse.com.tw/isin/C_public.jsp?strMode=2",
-                                headers={"user-agent": USER_AGENT})
-        response_tpex = requests.get("https://isin.twse.com.tw/isin/C_public.jsp?strMode=4",
-                                headers={"user-agent": USER_AGENT})
+        response_twse = self.session.get("https://isin.twse.com.tw/isin/C_public.jsp?strMode=2")
+        response_tpex = self.session.get("https://isin.twse.com.tw/isin/C_public.jsp?strMode=4")
         df_twse = pd.read_html(StringIO(response_twse.text), skiprows=1)[0].ffill()
         df_tpex = pd.read_html(StringIO(response_tpex.text), skiprows=1)[0].ffill()
         df = pd.concat([df_twse, df_tpex], ignore_index=True)

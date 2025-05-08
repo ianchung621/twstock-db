@@ -1,8 +1,6 @@
 import pandas as pd
-import requests
 from sqlalchemy import Column, DateTime, REAL, BigInteger
 
-from config.settings import USER_AGENT
 from base_class.base_scraper import DateChunkScraper
 from models.base import Base
 
@@ -13,8 +11,6 @@ class IndexPriceScraper(DateChunkScraper):
         start_date = start_date.replace(day=1)
         end_date = pd.Timestamp.now().replace(day=1)
         self.query_dates = pd.date_range(start = start_date, end = end_date, freq='MS')
-        self.session = requests.Session()
-        self.session.headers.update({"user-agent": USER_AGENT})
     
     def _scrape_date(self, date:pd.Timestamp, test_mode = False):
         url = "https://www.twse.com.tw/rwd/zh/TAIEX/MI_5MINS_HIST"
