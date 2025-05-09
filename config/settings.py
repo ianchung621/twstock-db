@@ -36,3 +36,7 @@ DEFAULT_START_DATES = {
 # === Routine Configuration ===
 with open("config/routine.yaml", "r") as f:
     ROUTINE_CONFIG = yaml.safe_load(f)
+
+# === Retry Settings ===
+RETRY_MAX_ATTEMPTS = 3
+RETRY_WAIT_SECONDS = 1

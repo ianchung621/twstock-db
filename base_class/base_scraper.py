@@ -5,8 +5,9 @@ from requests.exceptions import HTTPError
 import pandas as pd
 import random
 import time
-from config.settings import USER_AGENT
 
+from config.settings import USER_AGENT
+from util.proxy_utils import get_random_proxy
 
 class BaseScraper(ABC):
     """
@@ -25,6 +26,15 @@ class BaseScraper(ABC):
             self._session = s
         return self._session
 
+    @property
+    def proxy(self) -> dict | None:
+        """Return a proxy dict, or None if not needed."""
+        try:
+            proxy = get_random_proxy()
+            print(f'\nUsing Proxy {proxy}')
+            return {"https": proxy}
+        except Exception:
+            return None
 
     @staticmethod
     def validate_response(response: Response):
