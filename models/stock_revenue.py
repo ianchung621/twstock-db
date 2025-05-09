@@ -3,7 +3,7 @@ from sqlalchemy import Column, DateTime, String, BigInteger
 from io import StringIO
 from concurrent.futures import ThreadPoolExecutor
 
-from database.db_utils import table_has_data, read_sql_fast
+from util.db_utils import table_has_data, read_sql_fast
 from base_class.base_scraper import PeriodicScraper
 from models.stock_info import StockInfoScraper
 from models.base import Base

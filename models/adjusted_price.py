@@ -4,7 +4,7 @@ from sqlalchemy import Column, DateTime, String, REAL
 from base_class.base_transformer import Transformer
 from models.base import Base
 from models.stock_price import StockPrice
-from database.db_utils import read_sql_fast, ModelFrameMapper
+from util.db_utils import read_sql_fast, ModelFrameMapper
 
 
 class AdjustedPriceTransformer(Transformer):
