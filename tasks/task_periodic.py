@@ -2,7 +2,7 @@ from typing import Type
 from sqlalchemy.orm import DeclarativeBase
 
 from config.settings import DEFAULT_START_DATES
-from database.db_utils import get_latest_date, get_min_date, ModelFrameMapper
+from util.db_utils import get_latest_date, get_min_date, ModelFrameMapper
 from base_class.base_scraper import PeriodicScraper
 
 def run_periodic_task(model: Type[DeclarativeBase]) -> None:

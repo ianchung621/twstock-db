@@ -3,7 +3,7 @@ from sqlalchemy.orm import DeclarativeBase
 from tqdm import tqdm
 
 from config.settings import DEFAULT_START_DATES
-from database.db_utils import get_latest_date, get_min_date, get_date_serie, ModelFrameMapper
+from util.db_utils import get_latest_date, get_min_date, get_date_serie, ModelFrameMapper
 from base_class.base_scraper import DailyScraper
 
 

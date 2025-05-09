@@ -1,9 +1,8 @@
 from typing import Type
 from sqlalchemy.orm import DeclarativeBase
 
-from database.db_utils import ModelFrameMapper
+from util.db_utils import ModelFrameMapper
 from base_class.base_transformer import Transformer
-import models.index_price
 
 
 def run_transform_task(model: Type[DeclarativeBase]):

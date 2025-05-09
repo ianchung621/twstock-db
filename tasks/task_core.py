@@ -3,7 +3,7 @@ import pandas as pd
 from sqlalchemy.orm import DeclarativeBase
 
 from config.settings import DEFAULT_START_DATES
-from database.db_utils import get_latest_date, ModelFrameMapper
+from util.db_utils import get_latest_date, ModelFrameMapper
 from base_class.base_scraper import DateChunkScraper
 
 def run_core_task(model: Type[DeclarativeBase]) -> None:

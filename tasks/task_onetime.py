@@ -1,7 +1,7 @@
 from typing import Type
 from sqlalchemy.orm import DeclarativeBase
 
-from database.db_utils import ModelFrameMapper
+from util.db_utils import ModelFrameMapper
 from base_class.base_scraper import OneTimeScraper
 
 def run_onetime_task(model: Type[DeclarativeBase]):
