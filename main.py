@@ -1,6 +1,6 @@
 import argparse
 from config.settings import ROUTINE_CONFIG
-from database.db_utils import table_has_data
+from util.db_utils import table_has_data
 from tasks import run_task, create_tables
 from models import get_model
 from base_class.base_scraper import OneTimeScraper

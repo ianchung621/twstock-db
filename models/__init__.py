@@ -10,6 +10,7 @@ from models.stock_info import StockInfo
 from models.stock_price import StockPrice
 from models.stock_split import StockSplit
 from models.stock_revenue import StockRevenue
+from models.stock_ii import StockII
 from models.base import Base
 
 from typing import Type
