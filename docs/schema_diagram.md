@@ -86,6 +86,22 @@
 <td style="border: 2px solid #FFF; padding: 6px 10px; text-align: left;">dividend_type</td>
 </tr></table>
 
+<p>stock_ii:</p>
+<table style="border: 2px solid #FFF; border-collapse: collapse; margin-bottom: 1em;"><tr>
+<td style="border: 2px solid #FFF; padding: 6px 10px; text-align: left;"><b>date</b></td>
+<td style="border: 2px solid #FFF; padding: 6px 10px; text-align: left;"><b>stock_id</b></td>
+<td style="border: 2px solid #FFF; padding: 6px 10px; text-align: left;">fii_non_dealer_volume</td>
+<td style="border: 2px solid #FFF; padding: 6px 10px; text-align: left;">fii_dealer_volume</td>
+<td style="border: 2px solid #FFF; padding: 6px 10px; text-align: left;">trust_volume</td>
+<td style="border: 2px solid #FFF; padding: 6px 10px; text-align: left;">dealer_self_volume</td>
+<td style="border: 2px solid #FFF; padding: 6px 10px; text-align: left;">dealer_hedge_volume</td>
+<td style="border: 2px solid #FFF; padding: 6px 10px; text-align: left;">fii_non_dealer_turnover</td>
+<td style="border: 2px solid #FFF; padding: 6px 10px; text-align: left;">fii_dealer_turnover</td>
+<td style="border: 2px solid #FFF; padding: 6px 10px; text-align: left;">trust_turnover</td>
+<td style="border: 2px solid #FFF; padding: 6px 10px; text-align: left;">dealer_self_turnover</td>
+<td style="border: 2px solid #FFF; padding: 6px 10px; text-align: left;">dealer_hedge_turnover</td>
+</tr></table>
+
 <p>stock_info:</p>
 <table style="border: 2px solid #FFF; border-collapse: collapse; margin-bottom: 1em;"><tr>
 <td style="border: 2px solid #FFF; padding: 6px 10px; text-align: left;"><b>stock_id</b></td>
