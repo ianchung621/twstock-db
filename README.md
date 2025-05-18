@@ -1,17 +1,17 @@
-# Taiwan Stock ETL Pipeline
+# 📊 Taiwan Stock ETL Pipeline
 
 An ETL project that scrapes, processes, and stores Taiwan stock market data into a PostgreSQL database.
 
 
 ---
 
-## Schema Diagram
+## 🔗 Schema Diagram
 
 [View full diagram](docs/schema_diagram.md)
 
 ---
 
-## Requirements
+## 📦 Requirements
 
 - **Python 3.12**  
   ⚠️ **Python 3.13 is NOT supported** (due to SSL certificate verification issues with `requests` module).
@@ -19,7 +19,7 @@ An ETL project that scrapes, processes, and stores Taiwan stock market data into
 - Install Python dependencies via `requirements.txt`.
 
 ---
-## Setup Instructions
+## ⚙️ Setup Instructions
 
 ### 1. Create and activate environment
 ```bash
